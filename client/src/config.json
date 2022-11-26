@@ -23,6 +23,11 @@
           "type": "string"
         },
         {
+          "internalType": "string",
+          "name": "cycleName",
+          "type": "string"
+        },
+        {
           "internalType": "bool",
           "name": "canRent",
           "type": "bool"
@@ -128,6 +133,11 @@
           "internalType": "address",
           "name": "walletAddress",
           "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "cycleName",
+          "type": "string"
         }
       ],
       "name": "checkOut",
@@ -198,6 +208,11 @@
         {
           "internalType": "string",
           "name": "lastName",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "cycleName",
           "type": "string"
         },
         {
@@ -296,6 +311,11 @@
           "type": "string"
         },
         {
+          "internalType": "string",
+          "name": "cycleName",
+          "type": "string"
+        },
+        {
           "internalType": "bool",
           "name": "canRent",
           "type": "bool"
@@ -337,5 +357,5 @@
       "type": "function"
     }
   ],
-  "contractAddress": "0xac95C003463696Ff264FFB809AEC0fE1470D8322"
+  "contractAddress": "0xD26F4294c56628847E8D3d217AFBa3f5e3DD1815"
 }

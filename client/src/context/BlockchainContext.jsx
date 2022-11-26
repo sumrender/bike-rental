@@ -85,6 +85,7 @@ const BlockchainProvider = ({ children }) => {
     walletAddress,
     firstName,
     lastName,
+    cycleName,
     canRent,
     active,
     balance,
@@ -97,6 +98,7 @@ const BlockchainProvider = ({ children }) => {
         walletAddress,
         firstName,
         lastName,
+        cycleName,
         canRent,
         active,
         balance,
@@ -178,11 +180,15 @@ const BlockchainProvider = ({ children }) => {
     }
   };
 
-  const checkOut = async () => {
-    console.log("checkout called");
+  const checkOut = async (cycleName) => {
+    console.log("checkout called for id", cycleName);
+    if (cycleName === "") {
+      console.log("cycleID is empty");
+      return;
+    }
     if (!currentAccount) return;
     try {
-      const checkout = await contract.checkOut(currentAccount);
+      const checkout = await contract.checkOut(currentAccount, cycleName);
       await checkout.wait();
       await getRenter();
     } catch (error) {
@@ -192,9 +198,13 @@ const BlockchainProvider = ({ children }) => {
     }
   };
 
-  const checkIn = async () => {
-    console.log("checkin called");
+  const checkIn = async (cycleName) => {
+    console.log("checkin called for id", cycleName);
     if (!currentAccount) return;
+    if (renter.cycleName !== cycleName) {
+      console.log("CycleIDs do not match");
+      return;
+    }
     try {
       const checkin = await contract.checkIn(currentAccount);
       await checkin.wait();

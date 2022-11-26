@@ -6,6 +6,21 @@ import bike1 from "../../assets/bike1.jpg";
 import { getBlockchainContext } from "../../context/BlockchainContext";
 import Loading from "../loading/Loading";
 
+const bikeData = [
+  {
+    img: bike1,
+    id: "one",
+  },
+  {
+    img: bike1,
+    id: "two",
+  },
+  {
+    img: bike1,
+    id: "three",
+  },
+];
+
 const Dashboard = () => {
   const { renterExists, currentAccount } = getBlockchainContext();
 
@@ -23,9 +38,12 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="bikes flex mb-32">
+        {bikeData.map((bike, i) => (
+          <Bike key={i} bike={bike} />
+        ))}
+        {/* <Bike bike={bike1} />
         <Bike bike={bike1} />
-        <Bike bike={bike1} />
-        <Bike bike={bike1} />
+        <Bike bike={bike1} /> */}
       </div>
     </div>
   );

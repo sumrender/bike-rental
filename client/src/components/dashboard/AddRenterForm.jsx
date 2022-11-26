@@ -15,6 +15,7 @@ export default function Form() {
   const onSubmit = async (values) => {
     setIsDisabled(true);
     let newObject = {
+      cycleName: "",
       walletAddress: currentAccount,
       canRent: true,
       active: false,
@@ -34,11 +35,13 @@ export default function Form() {
       end,
       firstName,
       lastName,
+      cycleName,
     } = newObject;
     await addRenter(
       walletAddress,
       firstName,
       lastName,
+      cycleName,
       canRent,
       active,
       balance,
