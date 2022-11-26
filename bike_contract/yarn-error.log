@@ -1,0 +1,27 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\Sammy\.node\corepack\yarn\1.22.15\bin\yarn.js add hardhat
+
+PATH: 
+  C:\Users\Sammy\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Sammy\bin;C:\Program Files\Lapce;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\MinGW\bin;C:\Users\Sammy\AppData\Local\Programs\Python\Python310\Scripts;C:\Users\Sammy\AppData\Local\Programs\Python\Python310;C:\Users\Sammy\AppData\Local\Microsoft\WindowsApps;C:\Users\Sammy\AppData\Roaming\npm;C:\Users\Sammy\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
+
+Yarn version: 
+  1.22.15
+
+Node version: 
+  16.16.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: connect ECONNABORTED 104.16.19.35:443
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1187:16)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
