@@ -38,12 +38,9 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="bikes flex mb-32">
-        {bikeData.map((bike, i) => (
+        {renterExists && bikeData.map((bike, i) => (
           <Bike key={i} bike={bike} />
         ))}
-        {/* <Bike bike={bike1} />
-        <Bike bike={bike1} />
-        <Bike bike={bike1} /> */}
       </div>
     </div>
   );

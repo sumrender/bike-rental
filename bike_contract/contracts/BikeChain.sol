@@ -110,10 +110,12 @@ contract BikeChain {
         return address(this).balance;
     }
 
+    // Get owner balance
     function getOwnerBalance() public view onlyOwner returns (uint) {
         return ownerBalance;
     }
 
+    // Withdraw Owner Balance
     function withdrawOwnerBalance() public payable {
         payable(owner).transfer(ownerBalance);
         ownerBalance = 0;

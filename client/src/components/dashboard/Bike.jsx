@@ -1,15 +1,22 @@
 import React from "react";
+import { useState } from "react";
 import { getBlockchainContext } from "../../context/BlockchainContext";
 
 const Bike = ({ bike }) => {
   const { checkOut, checkIn } = getBlockchainContext();
 
+  const [isDisabled, setIsDisabled] = useState(false);
+
   async function handleCheckout() {
+    setIsDisabled(true);
     await checkOut(bike.id);
+    setIsDisabled(false);
   }
 
   async function handleCheckin() {
+    setIsDisabled(true);
     await checkIn(bike.id);
+    setIsDisabled(false);
   }
 
   return (
@@ -25,12 +32,14 @@ const Bike = ({ bike }) => {
         </p>
         <div className="flex gap-3 justify-center m-2">
           <button
+            disabled={isDisabled}
             onClick={handleCheckout}
             className="button bg-teal-600 p-1 rounded-md text-white"
           >
             Check Out
           </button>
           <button
+            disabled={isDisabled}
             onClick={handleCheckin}
             className="button bg-teal-600 p-1 rounded-md text-white"
           >

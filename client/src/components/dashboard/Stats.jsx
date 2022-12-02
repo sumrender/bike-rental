@@ -17,7 +17,7 @@ const Stats = () => {
   return (
     <div className="m-16 p-10">
       <p className="font-semibold text-2xl mb-2">
-        Welcome Sam! Here are your stats:
+        Welcome {renter?.firstName}! Here are your stats:
       </p>
       <div className="flex justify-between">
         <div className="credits p-2 text-sm flex rounded-md border-black shadow-xl">
@@ -66,7 +66,7 @@ const Stats = () => {
         <CreditAccountForm />
         <PayDueForm />
       </div>
-      <ToastContainer />
+      <ToastContainer autoClose={3000} />
     </div>
   );
 };

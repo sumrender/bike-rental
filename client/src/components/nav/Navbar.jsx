@@ -14,17 +14,25 @@ const Navbar = () => {
             BikeChain
           </Link>
         </div>
-        <button
-          onClick={connectWallet}
-          
-          className="button bg-teal-600 p-1 rounded-md text-white"
-        >
-          {currentAccount
-            ? `${currentAccount.slice(0, 5)}...${currentAccount.slice(
-                currentAccount.length - 4
-              )}`
-            : "Connect Wallet"}
-        </button>
+        <div className="">
+          <Link to="/dashboard">
+            <button
+              onClick={connectWallet}
+              className="button bg-teal-600 p-1 rounded-md text-white"
+            >
+              {currentAccount
+                ? `${currentAccount.slice(0, 5)}...${currentAccount.slice(
+                    currentAccount.length - 4
+                  )}`
+                : "Connect Wallet"}
+            </button>
+          </Link>
+          <Link to="/admin">
+            <button className="ml-2 button bg-teal-600 p-1 rounded-md text-white">
+              Admin
+            </button>
+          </Link>
+        </div>
       </div>
     </>
   );

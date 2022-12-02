@@ -9,8 +9,10 @@ const BlockchainContext = createContext("");
 
 const BlockchainProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState(null);
-  const [contractBalance, setContractBalance] = useState();
   const [renterExists, setRenterExists] = useState();
+  const [ownerBalance, setOwnerBalance] = useState();
+
+  const [contractBalance, setContractBalance] = useState();
   const [renter, setRenter] = useState();
   const [renterBalance, setRenterBalance] = useState();
   const [due, setDue] = useState();
@@ -46,14 +48,34 @@ const BlockchainProvider = ({ children }) => {
     }
   };
 
-  const getBalance = async () => {
+  const getOwnerBalance = async () => {
     try {
-      const balanceOf = await contract.balanceOf();
-      let balanceFormatted = ethers.utils.formatEther(balanceOf);
-      console.log(balanceFormatted);
+      const ownerBal = await contract.getOwnerBalance();
+      let balanceFormatted = ethers.utils.formatEther(ownerBal);
+      setOwnerBalance(balanceFormatted);
+    } catch (error) {
+      console.log(error.reason);
+      setOwnerBalance(null);
+    }
+  };
+
+  const withdrawOwnerBalance = async () => {
+    try {
+      await contract.withdrawOwnerBalance();
+      console.log("Owner has withdrawn money successfully.");
+    } catch (error) {
+      console.log(error.reason);
+      toast.error(error.reason, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  };
+
+  const getContractBalance = async () => {
+    try {
+      const contractBal = await contract.balanceOf();
+      let balanceFormatted = ethers.utils.formatEther(contractBal);
       setContractBalance(balanceFormatted);
-      // console.log(contractBalance);
-      // why is this undefined? I do not understand
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +88,7 @@ const BlockchainProvider = ({ children }) => {
       setRenterExists(isRenter);
       if (isRenter) getRenter();
     } catch (error) {
-      console.log(error);
+      console.log(error.reason);
     }
   };
 
@@ -77,7 +99,7 @@ const BlockchainProvider = ({ children }) => {
       setRenter(renterData);
       console.log(renterData);
     } catch (error) {
-      console.log(error);
+      console.log(error.reason);
     }
   };
 
@@ -110,7 +132,7 @@ const BlockchainProvider = ({ children }) => {
       console.log(`${firstName} added`);
       checkRenterExists();
     } catch (error) {
-      console.log(error);
+      console.log(error.reason);
     }
   };
 
@@ -120,7 +142,7 @@ const BlockchainProvider = ({ children }) => {
       const balance = await contract.balanceOfRenter(currentAccount);
       setRenterBalance(ethers.utils.formatEther(balance));
     } catch (error) {
-      console.log(error);
+      console.log(error.reason);
     }
   };
 
@@ -139,7 +161,10 @@ const BlockchainProvider = ({ children }) => {
       await deposit.wait();
       await getRenterBalance();
     } catch (error) {
-      console.log(error);
+      console.log(error.reason);
+      toast.error(error.reason, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     }
   };
 
@@ -149,7 +174,7 @@ const BlockchainProvider = ({ children }) => {
       const due = await contract.getDue(currentAccount);
       setDue(ethers.utils.formatEther(due));
     } catch (error) {
-      console.log(error);
+      console.log(error.reason);
     }
   };
 
@@ -159,14 +184,16 @@ const BlockchainProvider = ({ children }) => {
       const duration = await contract.getTotalDuration(currentAccount);
       setDuration(Number(duration));
     } catch (error) {
-      console.log(error);
+      console.log(error.reason);
     }
   };
 
   const makePayment = async (value) => {
-    console.log("make payment function called");
     try {
+      console.log("make payment function called");
       const ethVal = ethers.utils.parseEther(value);
+      console.log(`balance: ${balance}, and due: ${ethVal}`);
+      console.log("makePayment");
       const payment = await contract.makePayment(currentAccount, ethVal);
       await payment.wait();
       await getRenter();
@@ -174,7 +201,8 @@ const BlockchainProvider = ({ children }) => {
       await getTotalDuration();
       await getDue();
     } catch (error) {
-      toast.error(error.data.message, {
+      console.log(error.reason);
+      toast.error(error.reason, {
         position: toast.POSITION.TOP_RIGHT,
       });
     }
@@ -192,7 +220,7 @@ const BlockchainProvider = ({ children }) => {
       await checkout.wait();
       await getRenter();
     } catch (error) {
-      toast.error(error.data.message, {
+      toast.error(error.reason, {
         position: toast.POSITION.TOP_RIGHT,
       });
     }
@@ -212,7 +240,7 @@ const BlockchainProvider = ({ children }) => {
       await getDue();
       await getTotalDuration();
     } catch (error) {
-      toast.error(error.data.message, {
+      toast.error(error.reason, {
         position: toast.POSITION.TOP_RIGHT,
       });
     }
@@ -224,16 +252,31 @@ const BlockchainProvider = ({ children }) => {
     getRenterBalance();
     getDue();
     getTotalDuration();
+    // admin calls
+    getOwnerBalance();
+    getContractBalance();
   }, [currentAccount]);
+
+  // useEffect to reload page on
+  // account change
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", () => {
+        window.location.reload();
+      });
+    }
+  });
 
   return (
     <BlockchainContext.Provider
       value={{
         currentAccount,
         renterExists,
-        renterBalance,
         duration,
         due,
+        renterBalance,
+        ownerBalance,
+        contractBalance,
         renter,
         connectWallet,
         addRenter,
@@ -241,6 +284,7 @@ const BlockchainProvider = ({ children }) => {
         makePayment,
         checkOut,
         checkIn,
+        withdrawOwnerBalance,
       }}
     >
       {children}
